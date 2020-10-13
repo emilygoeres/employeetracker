@@ -9,7 +9,8 @@ Installations: npm init -y, npm install inquirer mysql
 Steps to complete Employee Tracker:
 1. Drop employee tracker if it already exists
 2. Created employeetracker to run on local db
-
+3. Use the DB employeeTracker_db for all the rest of the script
+4. Created 3 tables: Department, role, employee
 
 
 ![Employee Tracker]()
