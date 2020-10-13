@@ -12,9 +12,9 @@ Steps to complete Employee Tracker:
 
 
 
-![Employee Tracker](https://github.com/emilygoeres/ceating-a-quiz-homework/blob/master/codequiz1.png)
-![Employee Tracker](https://github.com/emilygoeres/ceating-a-quiz-homework/blob/master/codequiz1.png)
-![Employee Tracker](https://github.com/emilygoeres/ceating-a-quiz-homework/blob/master/codequiz1.png)
+![Employee Tracker]()
+![Employee Tracker]()
+![Employee Tracker]()
 
 
 Link to Deployed App:
