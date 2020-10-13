@@ -14,6 +14,8 @@ Steps to complete Employee Tracker:
 5. Created the statements to seleect certain info from different tables and to combine the info
 6. create the connection information for the sql database
 7. connect to the mysql server and sql database
+8. Created a function for when the user starts they can select what they would like to do
+9. Created functions to add a department, add a role, add an employee
 
 
 ![Employee Tracker]()
