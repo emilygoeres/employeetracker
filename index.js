@@ -36,7 +36,7 @@ function start() {
         } else if (options === "Add role") {
             addRole()
         } else if (options === "Add Employees") {
-            addEmployee
+            addEmployees()
         } else if (options === "View Departments") {
             viewDepartment()
         } else if (options === "View Roles") {
@@ -75,17 +75,17 @@ function addRole() {
         type: "input",
         message: "What is the name of the role you would like to add?"
     },
-        {
-            name: "salary",
-            type: "input",
-            message: "What is the salary?"
-        },
-        {
-            name: "department_id",
-            type: "list",
-            choices: [1, 2, 3],
-            message: "What is the department id?"
-        }
+    {
+        name: "salary",
+        type: "input",
+        message: "What is the salary?"
+    },
+    {
+        name: "department_id",
+        type: "list",
+        choices: [1, 2, 3],
+        message: "What is the department id?"
+    }
     ]).then(function (answers) {
         connection.query("INSERT INTO role SET ?", { title: answers.title, salary: answers.salary, department_id: answers.department_id }, function (err) {
             if (err) throw err
@@ -101,21 +101,26 @@ function addRole() {
 function addEmployees() {
     inquirer.prompt([
         {
-            name: "name",
+            name: "first_name",
             type: "input",
             message: "What is the first name of the employee?"
         }, {
-            name: "name",
+            name: "last_name",
             type: "input",
             message: "What is the last name of the employee?"
         }, {
-            name: "roleid",
-            type: "input",
+            name: "role_id",
+            type: "list",
+            choices: [1,2,3,4],
             message: "What is role ID?"
-
         },
+        {
+            name: "manager_id",
+            type: "input",
+            message: "What is manager ID?"
+        }
     ]).then(function (answers) {
-        connection.query("INSERT INTO employee SET ?", {}, function (err, response) {
+        connection.query("INSERT INTO employee SET ?", { first_name: answers.first_name, last_name: answers.last_name, role_id: answers.role_id, manager_id: answers.manager_id }, function (err, response) {
             if (err) throw err
             // console.table(response);
             console.log("Added Employee")
@@ -164,7 +169,7 @@ const getRoles = async () => {
 
 // View a list of employees
 const viewEmployees = () => {
-    connection.query("SELECT * FROM employees", function (err, response) {
+    connection.query("SELECT * FROM employee", function (err, response) {
         if (err) throw err
         console.log("View Employeess", response)
         start()
