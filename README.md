@@ -5,7 +5,6 @@ Project Description: For a business owner to be able to pull a list of mployees 
 
 Installations: npm init -y, npm install inquirer mysql
 
-
 Steps to complete Employee Tracker:
 1. Drop employee tracker if it already exists
 2. Created employeetracker to run on local db
@@ -17,6 +16,7 @@ Steps to complete Employee Tracker:
 8. Created a function for when the user starts they can select what they would like to do
 9. Created functions to add a department, add a role, add an employee
 10. Created functions that will display all of the departments, roles and employees
+11. Added an update employee function
 
 
 ![Employee Tracker]()
