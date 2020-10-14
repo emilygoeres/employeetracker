@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // run the start function after the connection is made to prompt the user
-    promptUser();
+    start();
 });
 
 // Give the user a list of options to choose from
@@ -29,24 +29,25 @@ function start() {
         name: "options",
         type: "list",
         message: "Please choose an option",
-        choices: ["Add a Department", "Add a role", "Add an Employee", "View Department", "View a Role", "View all Employees", "Update Employee", "QUIT"]
+        choices: ["Add a Department", "Add role", "Add Employees", "View Departments", "View Roles", "View Employees", "Update Employees", "QUIT"]
     }).then(function ({ options }) {
         if (options === "Add a Department") {
             addDepartment()
         } else if (options === "Add role") {
             addRole()
-        } else if (options === "Add Employye") {
+        } else if (options === "Add Employees") {
             addEmployee
         } else if (options === "View Departments") {
             viewDepartment()
         } else if (options === "View Roles") {
-            viewRole()
+            viewRoles()
         } else if (options === "View Employees") {
             viewEmployees()
         } else if (options === "Update Employees") {
             updateEmployees()
         } else {
-            connection.end
+            connection.end()
+            process.exit(0)
         }
     })
 }
@@ -58,36 +59,46 @@ function addDepartment() {
         type: "input",
         message: "What is the name of the department you would like to add?"
     }).then(function (answers) {
-        connection.query("INSERT INTO department SET ?", { title: answers.name }, function (err) {
+        connection.query("INSERT INTO department SET ?", { name: answers.name }, function (err, response) {
             if (err) throw err
-        },
-        console.table(response);
-        console.log("Added Department")
-            promptUser()
+            console.log(response);
+            console.log("Added Department")
+            start()
         })
     })
 }
 
 // Add a role
 function addRole() {
-    inquirer.prompt({
-        name: "name",
+    inquirer.prompt([{
+        name: "title",
         type: "input",
         message: "What is the name of the role you would like to add?"
-    }).then(function (answers) {
-        connection.query("INSERT INTO role SET ?", { title: answers.name }, function (err) {
-            if (err) throw err
+    },
+        {
+            name: "salary",
+            type: "input",
+            message: "What is the salary?"
         },
-        console.table(response);
-        console.log("Added Role")
+        {
+            name: "department_id",
+            type: "list",
+            choices: [1, 2, 3],
+            message: "What is the department id?"
+        }
+    ]).then(function (answers) {
+        connection.query("INSERT INTO role SET ?", { title: answers.title, salary: answers.salary, department_id: answers.department_id }, function (err) {
+            if (err) throw err
+            // console.table(response);
+            console.log("Added Role")
 
-        promptUser()
+            start()
+        })
     })
-})
 }
 
 // Add an employee
-function addEmployee() {
+function addEmployees() {
     inquirer.prompt([
         {
             name: "name",
@@ -104,22 +115,28 @@ function addEmployee() {
 
         },
     ]).then(function (answers) {
-        connection.query("INSERT INTO employee SET ?"{
-            if(err) throw err
-        },
-            console.table(response);
-        console.log("Added Employee")
-        promptUser()
+        connection.query("INSERT INTO employee SET ?", {}, function (err, response) {
+            if (err) throw err
+            // console.table(response);
+            console.log("Added Employee")
+            start()
+        })
     })
-})
 }
 
 // View a list of departments
-const viewDepartments = async () => {
+const viewDepartments = () => {
+    connection.query("SELECT * FROM department", function (err, response) {
+        if (err) throw err
+        console.log("View Departments", response)
+        start()
+    })
+}
+const getDepartmentId = async () => {
     try {
         const departmentData = await readDepartments_results[0]
         console.table(departmentData);
-        promptUser();
+        start();
     }
     catch (err) {
         console.log(err)
@@ -127,11 +144,18 @@ const viewDepartments = async () => {
 };
 
 // View a list of roles
-const viewRoles = async () => {
+const viewRoles = () => {
+    connection.query("SELECT * FROM role", function (err, response) {
+        if (err) throw err
+        console.log("View Roles", response)
+        start()
+    })
+}
+const getRoles = async () => {
     try {
-        const roleData = await readRoles_results[0]
-        console.table(roleData);
-        promptUser();
+        const rolesData = await readRoles_results[0]
+        console.table(rolesData);
+        start();
     }
     catch (err) {
         console.log(err)
@@ -139,11 +163,18 @@ const viewRoles = async () => {
 };
 
 // View a list of employees
-const viewEmployees = async () => {
+const viewEmployees = () => {
+    connection.query("SELECT * FROM employees", function (err, response) {
+        if (err) throw err
+        console.log("View Employeess", response)
+        start()
+    })
+}
+const getEmployees = async () => {
     try {
-        const demployeeData = await readEmployees_results[0]
+        const employeesData = await readEmployees_results[0]
         console.table(employeeData);
-        promptUser();
+        start();
     }
     catch (err) {
         console.log(err)
@@ -151,7 +182,7 @@ const viewEmployees = async () => {
 };
 
 // Update employee Role
-function updateEmploeeRole(){
+function updateEmploees() {
     inquirer.prompt([
         {
             name: "updateTitle",
@@ -161,19 +192,20 @@ function updateEmploeeRole(){
             name: "updateEmployeeID",
             message: "hich employee ID would you like to update?"
         },
-    ]).then(function(response){
+    ]).then(function (response) {
         connection.query(`UPDATE employee SET ? WHERE id = ?`,
-        [
-            {role_id: response.updateTitle},
-            response.updateEmploeeID,
-        ],
-        )function(err, response){
-            if(err){
-                throw err
+            [
+                { role_id: response.updateTitle },
+                response.updateEmploeeID,
+            ],
+            function (err, response) {
+                if (err) {
+                    throw err
+                }
+                console.table(response)
+                console.log("Updated employee role")
+                start();
             }
-            console.table(response)
-            console.log("Updated employee role")
-            promptUser();
-        }
+        )
     })
 }
