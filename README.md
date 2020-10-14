@@ -17,6 +17,7 @@ Steps to complete Employee Tracker:
 9. Created functions to add a department, add a role, add an employee
 10. Created functions that will display all of the departments, roles and employees
 11. Added an update employee function
+12. Added video link and images 
 
 
 ![Employee Tracker]()

@@ -29,7 +29,7 @@ function start() {
         name: "options",
         type: "list",
         message: "Please choose an option",
-        choices: ["Add a Department", "Add role", "Add Employees", "View Departments", "View Roles", "View Employees", "Update Employees", "QUIT"]
+        choices: ["Add a Department", "Add role", "Add Employees", "View Departments", "View Roles", "View Employees", "Update EmployeeRole", "QUIT"]
     }).then(function ({ options }) {
         if (options === "Add a Department") {
             addDepartment()
@@ -38,13 +38,13 @@ function start() {
         } else if (options === "Add Employees") {
             addEmployees()
         } else if (options === "View Departments") {
-            viewDepartment()
+            viewDepartments()
         } else if (options === "View Roles") {
             viewRoles()
         } else if (options === "View Employees") {
             viewEmployees()
-        } else if (options === "Update Employees") {
-            updateEmployees()
+        } else if (options === "Update EmployeeRole") {
+            updateEmployeeRole()
         } else {
             connection.end()
             process.exit(0)
@@ -89,8 +89,8 @@ function addRole() {
     ]).then(function (answers) {
         connection.query("INSERT INTO role SET ?", { title: answers.title, salary: answers.salary, department_id: answers.department_id }, function (err) {
             if (err) throw err
-            // console.table(response);
-            console.log("Added Role")
+             console.table("Added role");
+            // console.log("Added Role")
 
             start()
         })
@@ -122,8 +122,8 @@ function addEmployees() {
     ]).then(function (answers) {
         connection.query("INSERT INTO employee SET ?", { first_name: answers.first_name, last_name: answers.last_name, role_id: answers.role_id, manager_id: answers.manager_id }, function (err, response) {
             if (err) throw err
-            // console.table(response);
-            console.log("Added Employee")
+            console.table("Added Employee");
+            // console.log("Added Employee")
             start()
         })
     })
@@ -137,10 +137,10 @@ const viewDepartments = () => {
         start()
     })
 }
-const getDepartmentId = async () => {
+const getDepartments = async () => {
     try {
-        const departmentData = await readDepartments_results[0]
-        console.table(departmentData);
+        const departmentsData = await readDepartments_results[0]
+        console.table(departmentsData);
         start();
     }
     catch (err) {
@@ -171,7 +171,7 @@ const getRoles = async () => {
 const viewEmployees = () => {
     connection.query("SELECT * FROM employee", function (err, response) {
         if (err) throw err
-        console.log("View Employeess", response)
+        console.log("View Employees", response)
         start()
     })
 }
@@ -187,7 +187,7 @@ const getEmployees = async () => {
 };
 
 // Update employee Role
-function updateEmploees() {
+function updateEmploeeRole() {
     inquirer.prompt([
         {
             name: "updateTitle",
@@ -195,7 +195,7 @@ function updateEmploees() {
         },
         {
             name: "updateEmployeeID",
-            message: "hich employee ID would you like to update?"
+            message: "Which employee ID would you like to update?"
         },
     ]).then(function (response) {
         connection.query(`UPDATE employee SET ? WHERE id = ?`,
