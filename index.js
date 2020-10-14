@@ -32,15 +32,15 @@ function start() {
     }).then(function ({ options }) {
         if (options === "Add a Department") {
             addDepartment()
-        } else if (options === "Add a role") {
+        } else if (options === "Add role") {
             addRole()
-        } else if (options === "Add an Employye") {
+        } else if (options === "Add Employye") {
             addEmployee
-        } else if (options === "View Department") {
+        } else if (options === "View Departments") {
             viewDepartment()
-        } else if (options === "View Role") {
+        } else if (options === "View Roles") {
             viewRole()
-        } else if (options === "View all Employees") {
+        } else if (options === "View Employees") {
             viewEmployees()
         } else {
             connection.end
@@ -98,5 +98,37 @@ function addEmployee() {
     })
 }
 
-function vewDepartment
+const viewDepartments = async () => {
+    try{
+        const departmentData = await readDepartments_results[0]
+        console.table(departmentData);
+        promptUser();
+    }
+    catch(err){
+        console.log(err)
+    }
+};
+
+const viewRoles = async () => {
+    try{
+        const roleData = await readRoles_results[0]
+        console.table(roleData);
+        promptUser();
+    }
+    catch(err){
+        console.log(err)
+    }
+};
+
+const viewEmployees = async () => {
+    try{
+        const demployeeData = await readEmployees_results[0]
+        console.table(employeeData);
+        promptUser();
+    }
+    catch(err){
+        console.log(err)
+    }
+};
+
 
