@@ -20,9 +20,9 @@ Steps to complete Employee Tracker:
 12. Added video link and images 
 
 
-![Employee Tracker]()
-![Employee Tracker]()
-![Employee Tracker]()
+![Employee Tracker Department](https://github.com/emilygoeres/employeetracker/blob/main/employeetrackerdepartment.PNG)
+![Employee Tracker Employee Name](https://github.com/emilygoeres/employeetracker/blob/main/employeetrackeremployee.PNG)
+![Employee Tracker Role](https://github.com/emilygoeres/employeetracker/blob/main/employeetrackerrole.PNG)
 
 
 Link to Deployed App: https://drive.google.com/file/d/1gQHZTN5A1_PolQI8K_0b-wE2e597M_qI/view
