@@ -89,7 +89,7 @@ function addRole() {
     ]).then(function (answers) {
         connection.query("INSERT INTO role SET ?", { title: answers.title, salary: answers.salary, department_id: answers.department_id }, function (err) {
             if (err) throw err
-             console.table("Added role");
+            console.table("Added role");
             // console.log("Added Role")
 
             start()
@@ -111,7 +111,7 @@ function addEmployees() {
         }, {
             name: "role_id",
             type: "list",
-            choices: [1,2,3,4],
+            choices: [1, 2, 3, 4],
             message: "What is role ID?"
         },
         {
@@ -120,12 +120,13 @@ function addEmployees() {
             message: "What is manager ID?"
         }
     ]).then(function (answers) {
-        connection.query("INSERT INTO employee SET ?", { first_name: answers.first_name, last_name: answers.last_name, role_id: answers.role_id, manager_id: answers.manager_id }, function (err, response) {
-            if (err) throw err
-            console.table("Added Employee");
-            // console.log("Added Employee")
-            start()
-        })
+        connection.query("INSERT INTO employee SET ?", { first_name: answers.first_name, last_name: answers.last_name, role_id: answers.role_id, manager_id: answers.manager_id },
+            function (err, response) {
+                if (err) throw err
+                console.table("Added Employee");
+                // console.log("Added Employee")
+                start()
+            })
     })
 }
 
@@ -187,30 +188,35 @@ const getEmployees = async () => {
 };
 
 // Update employee Role
-function updateEmploeeRole() {
-    inquirer.prompt([
-        {
-            name: "updateTitle",
-            message: "What's the new role?"
-        },
-        {
-            name: "updateEmployeeID",
-            message: "Which employee ID would you like to update?"
-        },
-    ]).then(function (response) {
-        connection.query(`UPDATE employee SET ? WHERE id = ?`,
-            [
-                { role_id: response.updateTitle },
-                response.updateEmploeeID,
-            ],
-            function (err, response) {
-                if (err) {
-                    throw err
-                }
-                console.table(response)
-                console.log("Updated employee role")
+const updateEmployeeRole = () => {
+    inquirer.prompt([{
+        name: "options",
+        type: "list",
+        message: "Please choose an employee?",
+        choices: ["emily goeres", "emily smith", "alicia edem", "alicia shumovich", "sue loo", ]
+    },
+    // {
+    //     name: "newRole",
+    //     type: "list",
+    //     message: "Please choose a new role?",
+    //     choices: ["server", "cook", "Tractor Driver", "groundskeeper", "manager", ]
+    // },
+    {
+        name: "role_id",
+        type: "input",
+        message: "What is the new role id?"
+    }
+    ]).then(function (answers) {
+        var name_split=answers.options.split(" ");
+        var firstName=name_split[0];
+        var lastName=name_split[1];
+        connection.query("UPDATE employee SET role_id='"+answers.role_id+"' WHERE first_name='"+firstName+"' AND last_name='"+lastName+"'",
+        [answers.options, answers.role_id],
+            (err, data) => {
+                if (err) throw err;
+                console.table("Updated role")
                 start();
-            }
-        )
-    })
-}
+            })
+        })
+    }
+    
